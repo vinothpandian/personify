@@ -1,0 +1,50 @@
+@import "../assets/partials/variables";
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 12.5% 87.5%;
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-template-areas: "navigation-panel data-panels";
+  height: 100%;
+  padding: 1.375rem 1rem 1rem 0.5rem;
+  background-color: $background;
+}
+
+.data-panels {
+  grid-area: data-panels;
+  display: grid;
+  grid-template-columns: 22.5% 8.5% 46.5% 22.5%;
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-template-areas: "accessibility-panel persona-panel graph-panel information-panel";
+  height: 100%;
+  background-color: $background-light;
+}
+
+.navigation-panel {
+  grid-area: navigation-panel;
+}
+
+.accessibility-panel {
+  grid-area: accessibility-panel;
+  background-color: $light;
+  border-radius: 0.5rem 0 0 0.5rem;
+}
+
+.persona-panel {
+  grid-area: persona-panel;
+  background-color: $primary;
+  border-radius: 0.5rem 0 0 0.5rem;
+}
+
+.graph-panel {
+  grid-area: graph-panel;
+
+  border-radius: 0.5rem;
+}
+
+.information-panel {
+  grid-area: information-panel;
+  background-color: $light;
+}
