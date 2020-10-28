@@ -107,6 +107,11 @@ export class AccessibilityPanelComponent implements OnInit {
       description:
         'Color blindness happens when someone cannot distinguish between certain colors such as greens, reds and blues. It is also known as color deficiency. ',
     },
+    {
+      title: 'Last',
+      description:
+        'Partial Blindness can also be referred as Low Vision. The low visioned people cannot see things clearly. The need assistive tech or tools to have better vision.',
+    },
   ];
 
   constructor() {}
