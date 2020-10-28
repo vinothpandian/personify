@@ -41,8 +41,6 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
         navigationButtons: true,
         keyboard: true,
       },
-      height: '100%',
-      width: '100%',
       clickToUse: false,
       nodes: {
         shape: 'circle',
