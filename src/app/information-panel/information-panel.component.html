@@ -1,1 +1,22 @@
-<p>information-panel works!</p>
+<div class="wrapper">
+  <div class="header">
+    <div class="title">{{ persona.name }} - {{ persona.profession }}</div>
+    <img src="assets/icons/download.png" alt="download" />
+  </div>
+  <img src="{{ persona.image }}" [alt]="persona.name" />
+  <div class="accessibility">
+    {{ persona.accessibility }}
+  </div>
+  <div class="quote">
+    {{ persona.quote }}
+  </div>
+  <div class="description">
+    {{ persona.description }}
+  </div>
+
+  <div class="hates">
+    {{ persona.hates }}
+  </div>
+
+  <div>GUIDELINES</div>
+</div>
