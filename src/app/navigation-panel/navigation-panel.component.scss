@@ -37,10 +37,14 @@ nav {
 
       &.active {
         color: $primary !important;
+
+        &:hover {
+          filter: invert(0);
+        }
       }
 
-      &.hover {
-        filter: saturate(1);
+      &:hover {
+        filter: invert(0.25);
       }
 
       img {

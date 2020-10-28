@@ -16,7 +16,18 @@ export class NavigationPanelComponent implements OnInit {
     { name: 'Motor' },
     { name: 'Cognitive' },
   ];
+
   constructor() {}
 
   ngOnInit(): void {}
+
+  getImageSrc(item: string): string {
+    const src = 'assets/icons';
+
+    if (item === this.selected) {
+      return `${src}/${item.toLowerCase()}-active.png`;
+    }
+
+    return `${src}/${item.toLowerCase()}.png`;
+  }
 }

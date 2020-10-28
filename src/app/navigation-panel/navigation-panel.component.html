@@ -7,8 +7,9 @@
       (click)="selected = link.name"
     >
       <img
-        src="{{ 'assets/icons/' + link.name.toLowerCase() + '.png' }}"
+        src="{{ getImageSrc(link.name) }}"
         [alt]="link.name"
+        [ngClass]="link.name === selected ? 'active' : ''"
       />
       <span>{{ link.name }}</span>
     </li>
