@@ -1,3 +1,13 @@
 <div class="wrapper">
-  <input type="text" [formControl]="searchField" placeholder="Search" />
+  <div class="search-and-filter">
+    <div class="search">
+      <div class="search-icon">
+        <img src="assets/icons/search.png" alt="search" />
+      </div>
+      <input type="text" [formControl]="searchField" placeholder="Search" />
+    </div>
+    <button type="button">
+      <img src="assets/icons/filter.png" alt="filter" />
+    </button>
+  </div>
 </div>

@@ -1,7 +1,70 @@
 @import "../../assets/partials/variables";
 
 .wrapper {
-  margin-left: 1rem;
   height: 100%;
-  background-color: $gray-6;
+  background-color: $white;
+  padding-top: 0.75rem;
+  padding-left: 0.5rem;
+}
+
+.align-center {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.two-rem-size {
+  width: 2rem;
+  height: 2rem;
+}
+
+.search-and-filter {
+  @extend .align-center;
+
+  .search {
+    padding: 0.75rem;
+    background-color: $gray-6;
+    @extend .align-center;
+    width: 77%;
+    border-radius: 0.75rem;
+
+    .search-icon {
+      img {
+        @extend .two-rem-size;
+      }
+      margin-right: 0.75rem;
+    }
+
+    input {
+      height: 2rem;
+      background-color: $gray-6;
+      border: none;
+      font-family: "Roboto Condensed", sans-serif;
+      font-size: 1.25rem;
+
+      &:focus {
+        outline: none;
+        border: none;
+      }
+    }
+
+    margin-right: 0.25rem;
+  }
+
+  button {
+    @extend .two-rem-size;
+    background-color: $gray-6;
+    border-radius: 0.75rem;
+
+    padding: 1.85rem;
+    border: none;
+    outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 1.25rem;
+    }
+  }
 }
