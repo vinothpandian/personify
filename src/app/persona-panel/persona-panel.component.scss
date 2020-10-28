@@ -1,0 +1,30 @@
+.wrapper {
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
+  img {
+    cursor: pointer;
+    margin-top: 1.5rem;
+    object-fit: cover;
+    width: 5.625rem;
+    border-radius: 50%;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+
+    &:hover {
+      filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.5)) saturate(200%);
+    }
+  }
+}

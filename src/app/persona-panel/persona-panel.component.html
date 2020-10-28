@@ -1,1 +1,7 @@
-<p>persona-panel works!</p>
+<div class="wrapper">
+  <img
+    *ngFor="let persona_image of personaImages"
+    src="{{ persona_image }}"
+    alt="persona"
+  />
+</div>
