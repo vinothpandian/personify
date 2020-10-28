@@ -1,1 +1,16 @@
-<p>navigation-panel works!</p>
+<header>Person<span>i</span>fy</header>
+<nav>
+  <ul>
+    <li
+      *ngFor="let link of links"
+      [ngClass]="link.name === selected ? 'active' : ''"
+      (click)="selected = link.name"
+    >
+      <img
+        src="{{ 'assets/icons/' + link.name.toLowerCase() + '.png' }}"
+        [alt]="link.name"
+      />
+      <span>{{ link.name }}</span>
+    </li>
+  </ul>
+</nav>
