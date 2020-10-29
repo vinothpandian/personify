@@ -10,6 +10,10 @@
   filter: drop-shadow(0px -0.375rem 0.375rem rgba(0, 0, 0, 0.06))
     drop-shadow(0px 0.375rem 0.375rem rgba(0, 0, 0, 0.06));
 
+  &:hover {
+    filter: invert(0.05);
+  }
+
   img {
     align-self: center;
     justify-self: center;

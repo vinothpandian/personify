@@ -6,26 +6,23 @@
   padding-left: 0.5rem;
 }
 
-.align-center {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
 .two-rem-size {
-  width: 2rem;
-  height: 2rem;
+  width: 1.75rem;
+  height: 1.75rem;
 }
 
 .search-and-filter {
-  @extend .align-center;
-  padding-bottom: 1rem;
+  padding: 0 1rem 1rem 0;
+  display: grid;
+  grid-template-columns: 80% 20%;
 
   .search {
+    display: grid;
+    grid-template-columns: 20% 80%
+    ;
     padding: 0.75rem;
     background-color: $gray-6;
-    @extend .align-center;
-    width: 77%;
+
     border-radius: 0.75rem;
 
     .search-icon {
