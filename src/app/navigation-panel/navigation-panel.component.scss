@@ -9,6 +9,10 @@ header {
   font-family: "Roboto Condensed", sans-serif;
   color: $white;
 
+  div {
+    cursor: pointer;
+  }
+
   span {
     color: $primary;
   }

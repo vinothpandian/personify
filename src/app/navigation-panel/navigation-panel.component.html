@@ -1,10 +1,12 @@
-<header>Person<span>i</span>fy</header>
+<header>
+  <div (click)="loadHome()">Person<span>i</span>fy</div>
+</header>
 <nav>
   <ul>
     <li
       *ngFor="let link of links"
       [ngClass]="link.name === selected ? 'active' : ''"
-      (click)="selected = link.name"
+      (click)="onAccessibilityClick(link.name)"
     >
       <img
         src="{{ getImageSrc(link.name) }}"

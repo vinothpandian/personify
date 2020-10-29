@@ -20,9 +20,12 @@ class Parser {
       title: 'Double Click to Expand.',
     };
 
+    console.log(node.labels);
+
     Object.entries(node.properties).forEach(([key, value]) => {
       graphNode[key] = value.toString();
       graphNode.image = 'assets/images/placeholder.jpg';
+      graphNode.brokenImage = 'assets/images/placeholder.jpg';
 
       if (this.labels.includes(key)) {
         graphNode.label = value.toString();
