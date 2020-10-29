@@ -1,40 +1,100 @@
 @import "../../assets/partials/variables";
+@import url("https://fonts.googleapis.com/css2?family=Homemade+Apple&display=swap");
 
 .wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-radius: 0.5rem;
+  border-radius: 0.5rem 0.5rem 0 0;
   margin: 0.5rem;
+  margin-bottom: 0;
   padding: 0.5rem;
   background-color: $white;
-  //   height: 100vh;
-  //   overflow-x: hidden;
-  //   overflow-y: scroll;
-
-  //   /* Hide scrollbar for Chrome, Safari and Opera */
-  //   &::-webkit-scrollbar {
-  //     display: none;
-  //   }
-
-  //   /* Hide scrollbar for IE, Edge and Firefox */
-  //   -ms-overflow-style: none; /* IE and Edge */
-  //   scrollbar-width: none; /* Firefox */
 
   .header {
+    padding: 0.5rem 0.25rem;
+    width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    color: $background;
+
+    .title {
+      font-family: "Roboto Condensed", sans-serif;
+      font-size: 1.25rem;
+    }
 
     img {
       width: 2rem;
       height: 2rem;
+      cursor: pointer;
     }
   }
 
   img {
+    border-radius: 0.675rem;
     object-fit: cover;
     max-width: 100%;
+  }
+
+  .accessibility {
+    width: 100%;
+    text-align: center;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    background-color: $accent;
+    font-size: 1.25rem;
+    color: $primary;
+  }
+}
+
+.scrollable {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0 0 0.5rem 0.5rem;
+  margin: 0.5rem;
+  margin-top: 0;
+  padding: 0.5rem;
+  background-color: $white;
+  height: 60vh;
+  overflow-y: scroll;
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
+  .quote {
+    text-align: center;
+    margin: 1rem;
+    font-family: "Homemade Apple", cursive;
+    line-height: 156.42%;
+    letter-spacing: 0.03em;
+  }
+
+  .description {
+    margin: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1rem;
+    letter-spacing: 0.025em;
+    background-color: $gray-6;
+    padding: 0.5rem;
+    color: $background;
+  }
+
+  .hates {
+    margin: 0.75rem 0;
+    color: $background;
+    background-color: $accent;
+    padding: 0.75rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1rem;
+    letter-spacing: 0.025em;
   }
 }
