@@ -23,13 +23,22 @@ class Parser {
     Object.entries(node.properties).forEach(([key, value]) => {
       graphNode[key] = value.toString();
       graphNode.image = 'assets/images/placeholder.jpg';
-      graphNode.brokenImage = 'assets/images/placeholder.jpg';
 
       if (this.labels.includes(key)) {
         graphNode.label = value.toString();
-        graphNode.image = `https://designwithpersonify.com/f/nodes/${value}.png`;
+        graphNode.image = encodeURI(
+          `https://designwithpersonify.com/f/nodes/${value}.png`
+        );
       }
     });
+
+    if ('name' in node.properties) {
+      const url = encodeURI(
+        `https://designwithpersonify.com/f/nodes/${node.properties.name.toString()}.png`
+      );
+
+      graphNode.image = url;
+    }
 
     return graphNode;
   }
