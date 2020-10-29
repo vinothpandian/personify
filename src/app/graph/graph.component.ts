@@ -6,6 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Network, Options } from 'vis-network/standalone';
 import { InformationService } from '../core/services/information.service';
 import { Neo4jService } from '../core/services/neo4j.service';
@@ -19,6 +20,7 @@ import { GraphClickEvent, GraphData } from '../core/typings';
 export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('visNetwork', { static: false }) visNetwork!: ElementRef;
   private network: Network;
+  private neo4jSubscription: Subscription;
 
   constructor(
     private neo4jService: Neo4jService,
@@ -29,6 +31,7 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
     this.neo4jService.query('MATCH (n:Main)-[r]-(m) RETURN n,r,m', [
       'title',
       'name',
+      'section',
     ]);
   }
 
@@ -43,7 +46,7 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       clickToUse: false,
       nodes: {
-        shape: 'circle',
+        shape: 'circularImage',
         font: {
           size: 14,
           strokeWidth: 7,
@@ -237,9 +240,11 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
       this.onNodeDoubleClicked(event);
     });
 
-    this.neo4jService.$data.subscribe((data: GraphData) => {
-      this.network.setData(data);
-    });
+    this.neo4jSubscription = this.neo4jService.$data.subscribe(
+      (data: GraphData) => {
+        this.network.setData(data);
+      }
+    );
   }
 
   private onNodeSelect(event: any): void {
@@ -297,7 +302,7 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.neo4jService.$data.unsubscribe();
+    this.neo4jSubscription.unsubscribe();
     this.network.destroy();
   }
 }
