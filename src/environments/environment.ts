@@ -4,7 +4,7 @@
 
 export const environment = {
   neo4jConfig: {
-    url: 'bolt://localhost:7687',
+    url: 'bolt://192.168.0.214:7687',
     username: 'neo4j',
     password: 'letmein',
   },

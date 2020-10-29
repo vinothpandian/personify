@@ -9,6 +9,7 @@ import { InformationPanelComponent } from './information-panel/information-panel
 import { NavigationPanelComponent } from './navigation-panel/navigation-panel.component';
 import { PersonaPanelComponent } from './persona-panel/persona-panel.component';
 import { AccessibilityCardComponent } from './accessibility-panel/accessibility-card/accessibility-card.component';
+import { GuidelineCardComponent } from './information-panel/guideline-card/guideline-card.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { AccessibilityCardComponent } from './accessibility-panel/accessibility-
     PersonaPanelComponent,
     InformationPanelComponent,
     AccessibilityCardComponent,
+    GuidelineCardComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, GraphModule, ReactiveFormsModule],
   providers: [],

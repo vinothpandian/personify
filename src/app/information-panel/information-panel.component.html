@@ -19,4 +19,13 @@
   <div class="hates">
     {{ persona.hates }}
   </div>
+
+  <app-guideline-card
+    *ngFor="let guideline of guidelines"
+    [title]="guideline.title"
+    [subtitle]="guideline.subtitle"
+    [image]="guideline.image"
+    [description]="guideline.description"
+  >
+  </app-guideline-card>
 </div>

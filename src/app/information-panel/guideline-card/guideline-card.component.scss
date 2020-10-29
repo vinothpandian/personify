@@ -1,0 +1,55 @@
+@import "../../../assets/partials/variables";
+
+.card {
+  background-color: $gray-6;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  display: grid;
+  grid-template-columns: 30% 70%;
+  cursor: pointer;
+  filter: drop-shadow(0px -0.375rem 0.375rem rgba(0, 0, 0, 0.06))
+    drop-shadow(0px 0.375rem 0.375rem rgba(0, 0, 0, 0.06));
+
+  img {
+    align-self: center;
+    justify-self: center;
+    object-fit: cover;
+    width: 50%;
+  }
+
+  .details {
+    display: flex;
+    flex-direction: column;
+
+    .header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding-bottom: 0.5rem;
+
+      .titles {
+        .title {
+          font-family: "Roboto Condensed", sans-serif;
+          font-size: 1.25rem;
+          color: $background;
+          padding-bottom: 0.25rem;
+        }
+
+        .subtitle {
+          color: $gray-3;
+          font-size: 0.75rem;
+        }
+      }
+
+      img {
+        width: 2rem;
+        height: 2rem;
+      }
+    }
+
+    .description {
+      color: $gray-3;
+      font-size: 0.75rem;
+    }
+  }
+}

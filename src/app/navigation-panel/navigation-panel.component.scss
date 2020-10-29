@@ -5,7 +5,7 @@ header {
   top: 1.25rem;
   left: 1.25rem;
 
-  font-size: 3.25rem;
+  font-size: 2.5vw;
   font-family: "Roboto Condensed", sans-serif;
   color: $white;
 
@@ -16,7 +16,7 @@ header {
 
 nav {
   height: 100%;
-  width: 100%;
+  width: 2.5vw;
   display: flex;
   align-items: center;
 
@@ -25,9 +25,9 @@ nav {
 
     li {
       font-family: "Roboto Condensed", sans-serif;
-      font-size: 1.25rem;
+      font-size: 1vw;
       text-transform: uppercase;
-      margin-top: 3.25rem;
+      margin-top: 5vh;
 
       cursor: pointer;
       display: flex;
@@ -48,8 +48,7 @@ nav {
       }
 
       img {
-        width: 1.25rem;
-        height: 1.25rem;
+        width: 1.2vw;
       }
 
       span {

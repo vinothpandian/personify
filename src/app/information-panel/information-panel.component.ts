@@ -22,75 +22,75 @@ export class InformationPanelComponent implements OnInit {
   guidelines = [
     {
       image: 'assets/images/on_focus.png',
-      name: 'On Focus',
-      type: 'WCAG 2.1 Predictable',
+      title: 'On Focus',
+      subtitle: 'WCAG 2.1 Predictable',
       description:
         'Any component that is able to trigger an event when it receives focus must not change the cont ext.',
     },
     {
       image: 'assets/images/error.png',
-      name: 'Error Suggestion',
-      type: 'WCAG 2.1 Input Assistance',
+      title: 'Error Suggestion',
+      subtitle: 'WCAG 2.1 Input Assistance',
       description:
         'If an input error is detected (via client-side or server-side validation), suggestions are provided for fixing the input.',
     },
 
     {
       image: 'assets/images/on_focus.png',
-      name: 'On Focus',
-      type: 'WCAG 2.1 Predictable',
+      title: 'On Focus',
+      subtitle: 'WCAG 2.1 Predictable',
       description:
         'Any component that is able to trigger an event when it receives focus must not change the cont ext.',
     },
     {
       image: 'assets/images/error.png',
-      name: 'Error Suggestion',
-      type: 'WCAG 2.1 Input Assistance',
+      title: 'Error Suggestion',
+      subtitle: 'WCAG 2.1 Input Assistance',
       description:
         'If an input error is detected (via client-side or server-side validation), suggestions are provided for fixing the input.',
     },
 
     {
       image: 'assets/images/on_focus.png',
-      name: 'On Focus',
-      type: 'WCAG 2.1 Predictable',
+      title: 'On Focus',
+      subtitle: 'WCAG 2.1 Predictable',
       description:
         'Any component that is able to trigger an event when it receives focus must not change the cont ext.',
     },
     {
       image: 'assets/images/error.png',
-      name: 'Error Suggestion',
-      type: 'WCAG 2.1 Input Assistance',
+      title: 'Error Suggestion',
+      subtitle: 'WCAG 2.1 Input Assistance',
       description:
         'If an input error is detected (via client-side or server-side validation), suggestions are provided for fixing the input.',
     },
 
     {
       image: 'assets/images/on_focus.png',
-      name: 'On Focus',
-      type: 'WCAG 2.1 Predictable',
+      title: 'On Focus',
+      subtitle: 'WCAG 2.1 Predictable',
       description:
         'Any component that is able to trigger an event when it receives focus must not change the cont ext.',
     },
     {
       image: 'assets/images/error.png',
-      name: 'Error Suggestion',
-      type: 'WCAG 2.1 Input Assistance',
+      title: 'Error Suggestion',
+      subtitle: 'WCAG 2.1 Input Assistance',
       description:
         'If an input error is detected (via client-side or server-side validation), suggestions are provided for fixing the input.',
     },
 
     {
       image: 'assets/images/on_focus.png',
-      name: 'On Focus',
-      type: 'WCAG 2.1 Predictable',
+      title: 'On Focus',
+      subtitle: 'WCAG 2.1 Predictable',
       description:
         'Any component that is able to trigger an event when it receives focus must not change the cont ext.',
     },
     {
       image: 'assets/images/error.png',
-      name: 'Error Suggestion',
-      type: 'WCAG 2.1 Input Assistance',
+      title: 'Error Suggestion',
+      subtitle: 'WCAG 2.1 Input Assistance',
       description:
         'If an input error is detected (via client-side or server-side validation), suggestions are provided for fixing the input.',
     },
