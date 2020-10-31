@@ -3,6 +3,7 @@
     *ngFor="let persona of personas"
     src="{{ persona.image }}"
     alt="persona"
+    [ngClass]="currentPersona === persona.name ? 'active' : ''"
     (click)="selectPersona(persona.name)"
   />
 </div>
