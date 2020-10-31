@@ -20,12 +20,14 @@
     {{ persona.frustration }}
   </div>
 
-  <app-guideline-card
-    *ngFor="let guideline of guidelines"
-    [title]="guideline.name"
-    [subtitle]="guideline.guidelineType"
-    [image]="'assets/images/placeholder.jpg'"
-    [description]="guideline.level"
-  >
-  </app-guideline-card>
+  <div class="cards">
+    <app-guideline-card
+      *ngFor="let guideline of guidelines"
+      [title]="guideline.name"
+      [subtitle]="guideline.guidelineType"
+      [image]="'assets/images/placeholder.jpg'"
+      [description]="guideline.level"
+    >
+    </app-guideline-card>
+  </div>
 </div>
