@@ -16,6 +16,7 @@
       [title]="card.name"
       [description]="card.description"
       [active]="activeCard"
+      [image]="'https://designwithpersonify.com/f/nodes/' + card.name + '.png'"
       (click)="this.activeCard = card.name"
     ></app-accessibility-card>
   </div>

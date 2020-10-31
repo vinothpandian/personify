@@ -59,7 +59,11 @@ export class Neo4jService implements OnDestroy {
     this.edges = {};
   }
 
-  query(query: string, labels: string[] = [], parameters?: any): void {
+  query(
+    query: string,
+    labels: string[] = ['name', 'section'],
+    parameters?: any
+  ): void {
     const rxSession = this.driver.rxSession({
       defaultAccessMode: neo4j.session.READ,
     });
