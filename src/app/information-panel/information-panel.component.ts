@@ -36,4 +36,13 @@ export class InformationPanelComponent implements OnInit, OnDestroy {
     this.personaSubscription.unsubscribe();
     this.guidelineSubscription.unsubscribe();
   }
+
+  downloadURI(uri: string): void {
+    const link = document.createElement('a');
+    link.download = name;
+    link.href = uri;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
 }

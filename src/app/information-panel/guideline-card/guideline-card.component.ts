@@ -10,6 +10,7 @@ export class GuidelineCardComponent implements OnInit {
   @Input() subtitle: string;
   @Input() image: string;
   @Input() description: string;
+  @Input() url: string;
 
   constructor() {}
 

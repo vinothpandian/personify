@@ -1,7 +1,11 @@
 <div class="wrapper">
   <div class="header">
     <div class="title">{{ persona.name }} - {{ persona.profession }}</div>
-    <img src="assets/icons/download.png" alt="download" />
+    <img
+      src="assets/icons/download.png"
+      alt="download"
+      (click)="downloadURI(persona.imageSource)"
+    />
   </div>
   <img src="{{ persona.image }}" [alt]="persona.name" />
   <div class="accessibility">
@@ -27,6 +31,7 @@
       [subtitle]="guideline.guidelineType"
       [image]="'assets/images/placeholder.jpg'"
       [description]="guideline.level"
+      [url]="guideline.url"
     >
     </app-guideline-card>
   </div>
