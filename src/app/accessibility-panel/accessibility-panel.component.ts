@@ -1,120 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { Neo4jService } from '../core/services/neo4j.service';
+import { AccessibilityType } from '../models';
 
 @Component({
   selector: 'app-accessibility-panel',
   templateUrl: './accessibility-panel.component.html',
   styleUrls: ['./accessibility-panel.component.scss'],
 })
-export class AccessibilityPanelComponent implements OnInit {
+export class AccessibilityPanelComponent implements OnInit, OnDestroy {
   searchField = new FormControl('');
 
-  activeCard = 'Complete Blindness';
+  activeCard = '';
 
-  accessibilities = [
-    {
-      title: 'Complete Blindness',
-      description:
-        'A completely blind individual is unable to see at all. It refers to the complete lack of form and light perception. It can be temporary or permanent.',
-    },
-    {
-      title: 'Partial Blindness',
-      description:
-        'Partial Blindness can also be referred as Low Vision. The low visioned people cannot see things clearly. The need assistive tech or tools to have better vision.',
-    },
-    {
-      title: 'Color Blindness',
-      description:
-        'Color blindness happens when someone cannot distinguish between certain colors such as greens, reds and blues. It is also known as color deficiency. ',
-    },
+  accessibilities: AccessibilityType[] = [];
 
-    {
-      title: 'Complete Blindness',
-      description:
-        'A completely blind individual is unable to see at all. It refers to the complete lack of form and light perception. It can be temporary or permanent.',
-    },
-    {
-      title: 'Partial Blindness',
-      description:
-        'Partial Blindness can also be referred as Low Vision. The low visioned people cannot see things clearly. The need assistive tech or tools to have better vision.',
-    },
-    {
-      title: 'Color Blindness',
-      description:
-        'Color blindness happens when someone cannot distinguish between certain colors such as greens, reds and blues. It is also known as color deficiency. ',
-    },
+  accessibilityTypesSubscription: Subscription;
 
-    {
-      title: 'Complete Blindness',
-      description:
-        'A completely blind individual is unable to see at all. It refers to the complete lack of form and light perception. It can be temporary or permanent.',
-    },
-    {
-      title: 'Partial Blindness',
-      description:
-        'Partial Blindness can also be referred as Low Vision. The low visioned people cannot see things clearly. The need assistive tech or tools to have better vision.',
-    },
-    {
-      title: 'Color Blindness',
-      description:
-        'Color blindness happens when someone cannot distinguish between certain colors such as greens, reds and blues. It is also known as color deficiency. ',
-    },
-
-    {
-      title: 'Complete Blindness',
-      description:
-        'A completely blind individual is unable to see at all. It refers to the complete lack of form and light perception. It can be temporary or permanent.',
-    },
-    {
-      title: 'Partial Blindness',
-      description:
-        'Partial Blindness can also be referred as Low Vision. The low visioned people cannot see things clearly. The need assistive tech or tools to have better vision.',
-    },
-    {
-      title: 'Color Blindness',
-      description:
-        'Color blindness happens when someone cannot distinguish between certain colors such as greens, reds and blues. It is also known as color deficiency. ',
-    },
-
-    {
-      title: 'Complete Blindness',
-      description:
-        'A completely blind individual is unable to see at all. It refers to the complete lack of form and light perception. It can be temporary or permanent.',
-    },
-    {
-      title: 'Partial Blindness',
-      description:
-        'Partial Blindness can also be referred as Low Vision. The low visioned people cannot see things clearly. The need assistive tech or tools to have better vision.',
-    },
-    {
-      title: 'Color Blindness',
-      description:
-        'Color blindness happens when someone cannot distinguish between certain colors such as greens, reds and blues. It is also known as color deficiency. ',
-    },
-
-    {
-      title: 'Complete Blindness',
-      description:
-        'A completely blind individual is unable to see at all. It refers to the complete lack of form and light perception. It can be temporary or permanent.',
-    },
-    {
-      title: 'Partial Blindness',
-      description:
-        'Partial Blindness can also be referred as Low Vision. The low visioned people cannot see things clearly. The need assistive tech or tools to have better vision.',
-    },
-    {
-      title: 'Color Blindness',
-      description:
-        'Color blindness happens when someone cannot distinguish between certain colors such as greens, reds and blues. It is also known as color deficiency. ',
-    },
-    {
-      title: 'Last',
-      description:
-        'Partial Blindness can also be referred as Low Vision. The low visioned people cannot see things clearly. The need assistive tech or tools to have better vision.',
-    },
-  ];
-
-  constructor() {}
+  constructor(private neo4jService: Neo4jService) {
+    this.accessibilityTypesSubscription = this.neo4jService.accessibilityTypes$.subscribe(
+      (accessibilityTypes) => {
+        this.accessibilities = accessibilityTypes;
+        if (accessibilityTypes.length > 0) {
+          this.activeCard = accessibilityTypes[0]?.name;
+        }
+      }
+    );
+  }
 
   ngOnInit(): void {}
+
+  ngOnDestroy(): void {
+    this.accessibilityTypesSubscription.unsubscribe();
+  }
 }

@@ -1,10 +1,6 @@
-import { Record } from 'neo4j-driver';
-import {
-  isNode,
-  isRelationship,
-  Node,
-  Relationship,
-} from 'neo4j-driver/lib/graph-types';
+import * as neo4j from 'neo4j-driver';
+import { isNode, isRelationship } from 'neo4j-driver/lib/graph-types.js';
+import { AccessibilityType, DataNodeType, Guideline, Persona } from '../models';
 import { Graph, GraphEdge, GraphEdges, GraphNode, GraphNodes } from './typings';
 
 class Parser {
@@ -14,13 +10,11 @@ class Parser {
     this.labels = ['name'];
   }
 
-  parseNode(id: number, node: Node): GraphNode {
+  parseNode(id: number, node: neo4j.Node): GraphNode {
     const graphNode: GraphNode = {
       id,
       title: 'Double Click to Expand.',
     };
-
-    console.log(node.labels);
 
     Object.entries(node.properties).forEach(([key, value]) => {
       graphNode[key] = value.toString();
@@ -36,8 +30,11 @@ class Parser {
     });
 
     if ('name' in node.properties) {
+      // tslint:disable-next-line
+      const name = node.properties['name'].toString();
+
       const url = encodeURI(
-        `https://designwithpersonify.com/f/nodes/${node.properties.name.toString()}.png`
+        `https://designwithpersonify.com/f/nodes/${name}.png`
       );
 
       graphNode.image = url;
@@ -46,23 +43,48 @@ class Parser {
     return graphNode;
   }
 
-  parseRelationship(id: number, item: Relationship): GraphEdge {
+  parseRelationship(id: number, item: neo4j.Relationship): GraphEdge {
     return {
       id,
-      from: item.start.toInt(),
-      to: item.end.toInt(),
+      from: item.start.toNumber(),
+      to: item.end.toNumber(),
       label: item.type,
     };
   }
 
-  parse(record: Record, labels: string[] = []): Graph {
+  parsePersona(node: neo4j.Node): Persona {
+    return {
+      ...(node.properties as Persona),
+      type: DataNodeType.Persona,
+    };
+  }
+
+  parseAccessibilityType(node: neo4j.Node): AccessibilityType {
+    return {
+      ...(node.properties as AccessibilityType),
+      type: DataNodeType.AccessibilityType,
+    };
+  }
+
+  parseGuideline(node: neo4j.Node): Guideline {
+    // tslint:disable-next-line
+    const guidelineID = node.properties?.['type'] ?? '';
+
+    return {
+      ...(node.properties as Guideline),
+      type: DataNodeType.Guideline,
+      guidelineID,
+    };
+  }
+
+  parse(record: neo4j.Record, labels: string[] = []): Graph {
     this.labels = labels.length === 0 ? this.labels : labels;
 
     const nodes: GraphNodes = {};
     const edges: GraphEdges = {};
 
-    Object.values(record.toObject()).forEach((item) => {
-      const id = item.identity.toInt();
+    record.forEach((item) => {
+      const id = item.identity.toNumber();
 
       if (isNode(item)) {
         if (id in nodes) {

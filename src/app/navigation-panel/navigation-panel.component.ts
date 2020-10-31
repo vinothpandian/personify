@@ -7,7 +7,7 @@ import { Neo4jService } from '../core/services/neo4j.service';
   styleUrls: ['./navigation-panel.component.scss'],
 })
 export class NavigationPanelComponent implements OnInit {
-  selected = 'Visual';
+  selected = 'Speech';
 
   title = 'Personify';
   links = [
@@ -20,18 +20,16 @@ export class NavigationPanelComponent implements OnInit {
 
   constructor(private neo4jService: Neo4jService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.onAccessibilityClick(this.selected);
+  }
 
   loadHome(): void {
-    this.neo4jService.query('MATCH (n:Main)-[r]-(m) RETURN n,r,m', [
-      'title',
-      'name',
-      'section',
-    ]);
+    this.neo4jService.query('MATCH (n:Main)-[r]-(m) RETURN n,r,m', ['section']);
   }
 
   onAccessibilityClick(name: string): void {
-    const query = `MATCH (n:Accessibility)-[r]-(m) where n.name='${name}' RETURN n,r,m`;
+    const query = `MATCH (n:Accessibility)-[r]->(m) where n.name='${name}' RETURN n,r,m`;
     this.neo4jService.query(query, ['name']);
     this.selected = name;
   }

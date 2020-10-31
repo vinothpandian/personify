@@ -1,7 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import * as neo4j from 'neo4j-driver';
-import { ReplaySubject, Subject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AccessibilityType, Guideline, Persona } from 'src/app/models';
 import { environment } from '../../../environments/environment';
 import Parser from '../parser';
 import {
@@ -19,12 +20,20 @@ import {
 export class Neo4jService implements OnDestroy {
   private driver: neo4j.Driver;
   private parser: Parser;
+
   private nodes: GraphNodes;
   private edges: GraphEdges;
   private config: Neo4jConfig;
 
   public $ready = new ReplaySubject<string>();
   public $data = new Subject<GraphData>();
+
+  personas$ = new BehaviorSubject<Persona[]>([]);
+  private personas = [];
+  accessibilityTypes$ = new BehaviorSubject<AccessibilityType[]>([]);
+  private accessibilityTypes = [];
+  guidelines$ = new BehaviorSubject<Guideline[]>([]);
+  private guidelines = [];
 
   constructor() {
     this.config = environment.neo4jConfig;
@@ -55,12 +64,38 @@ export class Neo4jService implements OnDestroy {
 
     this.nodes = {};
     this.edges = {};
+    this.personas = [];
+    this.accessibilityTypes = [];
+    this.guidelines = [];
 
     rxSession
       .run(query, parameters)
       .records()
       .pipe(
         map((record: neo4j.Record) => {
+          // m in different and must be sorted by different node types
+          //  m can be sorted by label
+          //  Relationship with FOLLOW_THIS_GUIDELINE --> Guideline
+          //  Relationship with HAS_DISABILITY_RELATED_TO --> Persona
+          //  Relationship with TYPE --> SubTypes
+
+          const relationship = record.get('r') as neo4j.Relationship;
+          const node = record.get('m') as neo4j.Node;
+
+          switch (relationship.type) {
+            case 'TYPE':
+              this.accessibilityTypes.push(
+                this.parser.parseAccessibilityType(node)
+              );
+              break;
+            case 'FOLLOW_THIS_GUIDELINE':
+              this.guidelines.push(this.parser.parseGuideline(node));
+              break;
+            case 'HAS_DISABILITY_RELATED_TO':
+              this.personas.push(this.parser.parsePersona(node));
+              break;
+          }
+
           return this.parser.parse(record, labels);
         })
       )
@@ -76,6 +111,10 @@ export class Neo4jService implements OnDestroy {
           };
         },
         complete: () => {
+          this.personas$.next(this.personas);
+          this.accessibilityTypes$.next(this.accessibilityTypes);
+          this.guidelines$.next(this.guidelines);
+
           this.$data.next({
             nodes: Object.values(this.nodes),
             edges: Object.values(this.edges),

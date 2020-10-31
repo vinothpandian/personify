@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 import { Network, Options } from 'vis-network/standalone';
 import { InformationService } from '../core/services/information.service';
 import { Neo4jService } from '../core/services/neo4j.service';
-import { GraphClickEvent, GraphData } from '../core/typings';
+import { GraphClickEvent, GraphData, GraphNode } from '../core/typings';
 
 @Component({
   selector: 'app-graph',
@@ -27,13 +27,7 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
     private informationService: InformationService
   ) {}
 
-  ngOnInit(): void {
-    this.neo4jService.query('MATCH (n:Main)-[r]-(m) RETURN n,r,m', [
-      'title',
-      'name',
-      'section',
-    ]);
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     const container = this.visNetwork.nativeElement;
@@ -48,16 +42,14 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
       nodes: {
         shape: 'circularImage',
         font: {
-          size: 14,
-          strokeWidth: 7,
+          size: 12,
         },
         color: { background: '#673ab7', border: 'black' },
-        scaling: {},
       },
       edges: {
         arrows: 'to',
         font: {
-          size: 12,
+          size: 8,
           align: 'middle',
         },
       },
@@ -257,33 +249,22 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
     const node = this.neo4jService.getNodeById(clickedNodeId);
 
     this.informationService.$information.next(node.label);
-
-    this.network.updateClusteredNode(clickedNodeId, {
-      size: 45,
-      borderWidth: 3,
-    });
   }
 
   private onNodeDeselect(event: GraphClickEvent): void {
-    console.log(event);
     const length = event?.previousSelection?.nodes.length;
 
     if (length === 0) {
       return;
     }
 
-    const clickedNodeId = event.nodes[0];
+    const clickedNode = event.previousSelection.nodes[0] as GraphNode;
+    const clickedNodeId = clickedNode.id;
 
     this.informationService.$information.next('');
-
-    this.network.updateClusteredNode(clickedNodeId, {
-      size: 35,
-      borderWidth: 1,
-    });
   }
 
   private onNodeDoubleClicked(event: GraphClickEvent): void {
-    console.log(event);
     if (event.nodes.length === 0) {
       return;
     }
@@ -296,7 +277,7 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.neo4jService.query(
       'Match (n)-[r]-(m) where ID(n)=$id return n,r,m',
-      ['name'],
+      ['name', 'section'],
       { id: clickedNodeId }
     );
   }
