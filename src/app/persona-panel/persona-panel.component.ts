@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Neo4jService } from '../core/services/neo4j.service';
+import { Persona } from '../models';
 
 @Component({
   selector: 'app-persona-panel',
@@ -8,7 +9,11 @@ import { Neo4jService } from '../core/services/neo4j.service';
   styleUrls: ['./persona-panel.component.scss'],
 })
 export class PersonaPanelComponent implements OnInit, OnDestroy {
-  personaImages = [];
+  personas: { name: string; image: string }[] = [];
+
+  allPersonas: {
+    [name: string]: Persona;
+  } = {};
 
   private personaSubscription: Subscription;
 
@@ -17,15 +22,30 @@ export class PersonaPanelComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.personaSubscription = this.neo4jService.personas$.subscribe(
       (personas) => {
-        this.personaImages = personas.map((persona) => {
+        this.allPersonas = personas.reduce((acc, persona) => {
+          return {
+            ...acc,
+            [persona.name]: persona,
+          };
+        }, {});
+
+        this.personas = personas.map((persona) => {
           const imageURL = encodeURI(
             `https://designwithpersonify.com/f/avatars/${persona.name}.png`
           );
-          console.log(imageURL);
-          return imageURL;
+
+          return {
+            name: persona.name,
+            image: imageURL,
+          };
         });
       }
     );
+  }
+
+  selectPersona(name: string): void {
+    const persona = this.allPersonas[name];
+    this.neo4jService.selectedPersona$.next(persona);
   }
 
   ngOnDestroy(): void {

@@ -1,7 +1,8 @@
 <div class="wrapper">
   <img
-    *ngFor="let persona_image of personaImages"
-    src="{{ persona_image }}"
+    *ngFor="let persona of personas"
+    src="{{ persona.image }}"
     alt="persona"
+    (click)="selectPersona(persona.name)"
   />
 </div>
