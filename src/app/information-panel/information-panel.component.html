@@ -22,10 +22,10 @@
 
   <app-guideline-card
     *ngFor="let guideline of guidelines"
-    [title]="guideline.title"
-    [subtitle]="guideline.subtitle"
-    [image]="guideline.image"
-    [description]="guideline.description"
+    [title]="guideline.name"
+    [subtitle]="guideline.guidelineType"
+    [image]="'assets/images/placeholder.jpg'"
+    [description]="guideline.level"
   >
   </app-guideline-card>
 </div>
