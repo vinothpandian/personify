@@ -52,6 +52,12 @@ class Parser {
     };
   }
 
+  getPersonaURL(name: string): string {
+    return encodeURI(
+      `https://designwithpersonify.com/f/persona_photos/${name}.png`
+    );
+  }
+
   parsePersona(node: neo4j.Node): [Persona, boolean] {
     const personaNode = node.properties as Persona;
     const hasName = personaNode?.name ?? false;
@@ -65,6 +71,7 @@ class Parser {
       {
         ...(node.properties as Persona),
         type: DataNodeType.Persona,
+        image: this.getPersonaURL(personaNode.name),
       },
       false,
     ];

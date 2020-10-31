@@ -11,6 +11,7 @@ export interface DataNode {
 
 export interface Persona extends DataNode {
   type: DataNodeType.Persona;
+  image: string;
   name: string;
   profession: string;
   imageSource: string;
