@@ -15,7 +15,10 @@ export class PersonaPanelComponent implements OnInit, OnDestroy {
     [name: string]: Persona;
   } = {};
 
+  currentPersona = '';
+
   private personaSubscription: Subscription;
+  private selectedPersonaSubscription: Subscription;
 
   constructor(private neo4jService: Neo4jService) {}
 
@@ -31,7 +34,7 @@ export class PersonaPanelComponent implements OnInit, OnDestroy {
 
         this.personas = personas.map((persona) => {
           const imageURL = encodeURI(
-            `https://designwithpersonify.com/f/avatars/${persona.name}.png`
+            `https://designwithpersonify.com/f/nodes/${persona.name}.png`
           );
 
           return {
@@ -39,6 +42,13 @@ export class PersonaPanelComponent implements OnInit, OnDestroy {
             image: imageURL,
           };
         });
+      }
+    );
+
+    this.selectedPersonaSubscription = this.neo4jService.selectedPersona$.subscribe(
+      (persona) => {
+        this.currentPersona = persona.name;
+        console.log(this.currentPersona);
       }
     );
   }
@@ -50,5 +60,6 @@ export class PersonaPanelComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.personaSubscription.unsubscribe();
+    this.selectedPersonaSubscription.unsubscribe();
   }
 }
