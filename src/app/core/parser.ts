@@ -52,29 +52,63 @@ class Parser {
     };
   }
 
-  parsePersona(node: neo4j.Node): Persona {
-    return {
-      ...(node.properties as Persona),
-      type: DataNodeType.Persona,
-    };
+  parsePersona(node: neo4j.Node): [Persona, boolean] {
+    const personaNode = node.properties as Persona;
+    const hasName = personaNode?.name ?? false;
+    const hasBiography = personaNode?.biography ?? false;
+
+    if (!(hasName && hasBiography)) {
+      return [{} as Persona, true];
+    }
+
+    return [
+      {
+        ...(node.properties as Persona),
+        type: DataNodeType.Persona,
+      },
+      false,
+    ];
   }
 
-  parseAccessibilityType(node: neo4j.Node): AccessibilityType {
-    return {
-      ...(node.properties as AccessibilityType),
-      type: DataNodeType.AccessibilityType,
-    };
+  parseAccessibilityType(node: neo4j.Node): [AccessibilityType, boolean] {
+    const accessibilityTypeNode = node.properties as AccessibilityType;
+    const hasName = accessibilityTypeNode?.name ?? false;
+    const hasdescription = accessibilityTypeNode?.description ?? false;
+
+    if (!(hasName && hasdescription)) {
+      return [{} as AccessibilityType, true];
+    }
+
+    return [
+      {
+        ...(node.properties as AccessibilityType),
+        type: DataNodeType.AccessibilityType,
+      },
+      false,
+    ];
   }
 
-  parseGuideline(node: neo4j.Node): Guideline {
+  parseGuideline(node: neo4j.Node): [Guideline, boolean] {
+    const guidelineNode = node.properties as Guideline;
+    const hasName = guidelineNode?.name ?? false;
+    const hasGuidelineType = guidelineNode?.guidelineType ?? false;
+    const hasLevel = guidelineNode?.level ?? false;
+
+    if (!(hasName && hasGuidelineType && hasLevel)) {
+      return [{} as Guideline, true];
+    }
+
     // tslint:disable-next-line
     const guidelineID = node.properties?.['type'] ?? '';
 
-    return {
-      ...(node.properties as Guideline),
-      type: DataNodeType.Guideline,
-      guidelineID,
-    };
+    return [
+      {
+        ...(node.properties as Guideline),
+        type: DataNodeType.Guideline,
+        guidelineID,
+      },
+      false,
+    ];
   }
 
   parse(record: neo4j.Record, labels: string[] = []): Graph {

@@ -35,6 +35,8 @@ export class Neo4jService implements OnDestroy {
   guidelines$ = new BehaviorSubject<Guideline[]>([]);
   private guidelines = [];
 
+  selectedPersona$ = new BehaviorSubject<Persona>({} as Persona);
+
   constructor() {
     this.config = environment.neo4jConfig;
 
@@ -84,15 +86,33 @@ export class Neo4jService implements OnDestroy {
 
           switch (relationship.type) {
             case 'TYPE':
-              this.accessibilityTypes.push(
-                this.parser.parseAccessibilityType(node)
-              );
+              const [
+                accessibilityNode,
+                accessibilityNodeError,
+              ] = this.parser.parseAccessibilityType(node);
+              if (accessibilityNodeError) {
+                break;
+              }
+              this.accessibilityTypes.push(accessibilityNode);
               break;
             case 'FOLLOW_THIS_GUIDELINE':
-              this.guidelines.push(this.parser.parseGuideline(node));
+              const [
+                guidelineNode,
+                guidelineNodeError,
+              ] = this.parser.parseGuideline(node);
+              if (guidelineNodeError) {
+                break;
+              }
+              this.guidelines.push(guidelineNode);
               break;
             case 'HAS_DISABILITY_RELATED_TO':
-              this.personas.push(this.parser.parsePersona(node));
+              const [personaNode, personaNodeError] = this.parser.parsePersona(
+                node
+              );
+              if (personaNodeError) {
+                break;
+              }
+              this.personas.push(personaNode);
               break;
           }
 
@@ -111,6 +131,7 @@ export class Neo4jService implements OnDestroy {
           };
         },
         complete: () => {
+          this.selectedPersona$.next(this.personas[0]);
           this.personas$.next(this.personas);
           this.accessibilityTypes$.next(this.accessibilityTypes);
           this.guidelines$.next(this.guidelines);

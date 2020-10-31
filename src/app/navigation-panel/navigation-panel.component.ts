@@ -29,7 +29,7 @@ export class NavigationPanelComponent implements OnInit {
   }
 
   onAccessibilityClick(name: string): void {
-    const query = `MATCH (n:Accessibility)-[r]->(m) where n.name='${name}' RETURN n,r,m`;
+    const query = `MATCH (n:Accessibility)-[r]-(m) where n.name='${name}' RETURN n,r,m`;
     this.neo4jService.query(query, ['name']);
     this.selected = name;
   }

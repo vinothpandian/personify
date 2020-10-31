@@ -1,43 +1,34 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Neo4jService } from '../core/services/neo4j.service';
 
 @Component({
   selector: 'app-persona-panel',
   templateUrl: './persona-panel.component.html',
   styleUrls: ['./persona-panel.component.scss'],
 })
-export class PersonaPanelComponent implements OnInit {
-  personaImages = [
-    'assets/images/persona_1.png',
-    'assets/images/persona_2.png',
-    'assets/images/persona_3.png',
-    'assets/images/persona_4.png',
-    'assets/images/persona_1.png',
-    'assets/images/persona_2.png',
-    'assets/images/persona_3.png',
-    'assets/images/persona_4.png',
-    'assets/images/persona_1.png',
-    'assets/images/persona_2.png',
-    'assets/images/persona_3.png',
-    'assets/images/persona_4.png',
-    'assets/images/persona_1.png',
-    'assets/images/persona_2.png',
-    'assets/images/persona_3.png',
-    'assets/images/persona_4.png',
-    'assets/images/persona_1.png',
-    'assets/images/persona_2.png',
-    'assets/images/persona_3.png',
-    'assets/images/persona_4.png',
-    'assets/images/persona_1.png',
-    'assets/images/persona_2.png',
-    'assets/images/persona_3.png',
-    'assets/images/persona_4.png',
-    'assets/images/persona_1.png',
-    'assets/images/persona_2.png',
-    'assets/images/persona_3.png',
-    'assets/images/persona_4.png',
-  ];
+export class PersonaPanelComponent implements OnInit, OnDestroy {
+  personaImages = [];
 
-  constructor() {}
+  private personaSubscription: Subscription;
 
-  ngOnInit(): void {}
+  constructor(private neo4jService: Neo4jService) {}
+
+  ngOnInit(): void {
+    this.personaSubscription = this.neo4jService.personas$.subscribe(
+      (personas) => {
+        this.personaImages = personas.map((persona) => {
+          const imageURL = encodeURI(
+            `https://designwithpersonify.com/f/avatars/${persona.name}.png`
+          );
+          console.log(imageURL);
+          return imageURL;
+        });
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.personaSubscription.unsubscribe();
+  }
 }
