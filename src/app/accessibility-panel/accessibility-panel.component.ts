@@ -12,6 +12,36 @@ import { AccessibilityType } from '../models';
 export class AccessibilityPanelComponent implements OnInit, OnDestroy {
   searchField = new FormControl('');
 
+  searchData = [
+    {
+      title: 'Persona',
+      data: [{ title: 'Vinoth' }, { title: 'Sarah' }],
+    },
+    {
+      title: 'Accessibility',
+      data: [{ title: 'Blindness' }, { title: 'Mutism' }],
+    },
+  ];
+
+  projects = [
+    {
+      id: 'p1',
+      title: 'Project A',
+      subprojects: [
+        { title: 'Subproject 1 of A', id: 's1p1' },
+        { title: 'Subproject 2 of A', id: 's2p1' },
+      ],
+    },
+    {
+      id: 'p2',
+      title: 'Project B',
+      subprojects: [
+        { title: 'Subproject 1 of B', id: 's1p2' },
+        { title: 'Subproject 2 of B', id: 's2p2' },
+      ],
+    },
+  ];
+
   activeCard = '';
 
   accessibilities: AccessibilityType[] = [];

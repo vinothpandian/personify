@@ -35,6 +35,7 @@
   img {
     border-radius: 0.675rem;
     object-fit: cover;
+    width: 100%;
     max-width: 100%;
   }
 
@@ -59,7 +60,7 @@
   margin-top: 0;
   padding: 0.5rem;
   background-color: $white;
-  height: 70vh;
+  height: 65vh;
   overflow-y: scroll;
 
   /* Hide scrollbar for Chrome, Safari and Opera */

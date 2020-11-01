@@ -18,12 +18,13 @@
 
   .search {
     display: grid;
-    grid-template-columns: 20% 80%
-    ;
+    grid-template-columns: 20% 80%;
     padding: 0.75rem;
     background-color: $gray-6;
-
+    margin-right: 0.25rem;
     border-radius: 0.75rem;
+    margin-right: 0.25rem;
+    align-items: center;
 
     .search-icon {
       img {
@@ -32,20 +33,7 @@
       margin-right: 0.75rem;
     }
 
-    input {
-      height: 2rem;
-      background-color: $gray-6;
-      border: none;
-      font-family: "Roboto Condensed", sans-serif;
-      font-size: 1.25rem;
 
-      &:focus {
-        outline: none;
-        border: none;
-      }
-    }
-
-    margin-right: 0.25rem;
   }
 
   button {

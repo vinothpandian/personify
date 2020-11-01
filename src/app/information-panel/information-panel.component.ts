@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Neo4jService } from '../core/services/neo4j.service';
 import { Guideline, Persona } from '../models';
@@ -10,6 +16,7 @@ import { Guideline, Persona } from '../models';
 })
 export class InformationPanelComponent implements OnInit, OnDestroy {
   persona: Persona = {} as Persona;
+  @ViewChild('scrollable') scrollableElementRef: ElementRef<HTMLDivElement>;
 
   guidelines: Guideline[] = [];
 
@@ -21,6 +28,8 @@ export class InformationPanelComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.personaSubscription = this.neo4jService.selectedPersona$.subscribe(
       (persona) => {
+        this.scrollableElementRef?.nativeElement?.scrollTo(0, 0);
+
         this.persona = persona;
       }
     );

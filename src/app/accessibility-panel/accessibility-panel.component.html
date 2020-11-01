@@ -4,8 +4,28 @@
       <div class="search-icon">
         <img src="assets/icons/search.png" alt="search" />
       </div>
-      <input type="text" [formControl]="searchField" placeholder="Search" />
+      <ng-select
+        class="select"
+        [items]="searchData"
+        bindLabel="title"
+        bindValue="title"
+        groupBy="data"
+        [formControl]="searchField"
+        appearance="outline"
+      >
+        <ng-template ng-optgroup-tmp let-item="item">
+          <span class="group">
+            {{ item.title }}
+          </span>
+        </ng-template>
+        <ng-template ng-option-tmp let-item="item">
+          <div class="item">
+            {{ item.title }}
+          </div>
+        </ng-template>
+      </ng-select>
     </div>
+
     <button type="button">
       <img src="assets/icons/filter.png" alt="filter" />
     </button>
