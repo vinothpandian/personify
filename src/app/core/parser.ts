@@ -42,25 +42,36 @@ class Parser {
     const graphNode: GraphNode = {
       id,
       title: 'Double Click to Expand.',
+      image: 'assets/images/placeholder.jpg',
+      brokenImage: 'assets/images/placeholder.jpg',
     };
 
-    Object.entries(node.properties).forEach(([key, value]) => {
-      graphNode[key] = value.toString();
+    if ('group' in node.properties) {
+      // tslint:disable-next-line
+      graphNode.group = node.properties['group'].toString();
+    }
 
-      if (key === 'name' || key === 'section') {
-        graphNode.label = value.toString();
+    const sectionExists = 'section' in node.properties;
 
-        // tslint:disable-next-line
-        const group = node.properties?.['group'] ?? 'persona';
+    const key = sectionExists ? 'section' : 'name';
 
-        if (!this.groups.has(group)) {
-          graphNode.image = encodeURI(
-            `https://designwithpersonify.com/f/nodes/${value.toString()}.png`
-          );
-          graphNode.brokenImage = 'assets/images/placeholder.jpg';
-        }
-      }
-    });
+    const value = node.properties[key];
+
+    if (!value) {
+      return graphNode;
+    }
+
+    graphNode.label = value.toString();
+
+    // tslint:disable-next-line
+    const group = node.properties?.['group'] ?? 'missing';
+
+    if (!this.groups.has(group)) {
+      graphNode.image = encodeURI(
+        `https://designwithpersonify.com/f/nodes/${value.toString()}.png`
+      );
+      graphNode.brokenImage = 'assets/images/placeholder.jpg';
+    }
 
     return graphNode;
   }

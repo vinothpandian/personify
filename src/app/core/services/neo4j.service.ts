@@ -69,6 +69,9 @@ export class Neo4jService implements OnDestroy {
     this.parser = new Parser();
     this.nodes = {};
     this.edges = {};
+    this.personas = [];
+    this.accessibilityTypes = [];
+    this.guidelines = [];
   }
 
   getAllNodes(): void {
@@ -205,10 +208,12 @@ export class Neo4jService implements OnDestroy {
           };
         },
         complete: () => {
-          this.selectedPersona$.next(this.personas[0]);
-          this.personas$.next(this.personas);
-          this.accessibilityTypes$.next(this.accessibilityTypes);
-          this.guidelines$.next(this.guidelines);
+          if (updateAll) {
+            this.selectedPersona$.next(this.personas[0]);
+            this.personas$.next(this.personas);
+            this.accessibilityTypes$.next(this.accessibilityTypes);
+            this.guidelines$.next(this.guidelines);
+          }
 
           this.$data.next({
             nodes: Object.values(this.nodes),

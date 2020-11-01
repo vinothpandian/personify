@@ -54,6 +54,10 @@ export class PersonaPanelComponent implements OnInit, OnDestroy {
 
   selectPersona(name: string): void {
     const persona = this.allPersonas[name];
+    this.neo4jService.query(
+      `MATCH (n:Persona)-[r]-(m) where n.name='${name}' return n,r,m`,
+      false
+    );
     this.neo4jService.selectedPersona$.next(persona);
   }
 
