@@ -1,10 +1,11 @@
 <div class="wrapper">
   <div class="search-and-filter">
-    <div class="search">
+    <div class="search" (click)="ngselect.open()">
       <div class="search-icon">
         <img src="assets/icons/search.png" alt="search" />
       </div>
       <ng-select
+        #Selector
         class="select"
         [items]="searchData | async"
         bindLabel="label"

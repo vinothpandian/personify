@@ -15,6 +15,7 @@
   padding: 0 1rem 1rem 0;
 
   .search {
+    cursor: text;
     display: flex;
     padding: 0.75rem;
     background-color: $gray-6;
@@ -24,6 +25,7 @@
     align-items: center;
 
     .search-icon {
+      cursor: pointer;
       img {
         @extend .two-rem-size;
       }
@@ -31,7 +33,7 @@
     }
 
     .ng-select {
-      border-bottom: 1px solid $gray-5;
+      cursor: text;
       width: 100%;
     }
   }

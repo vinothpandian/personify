@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { NgSelectComponent } from '@ng-select/ng-select';
 import { Observable, Subscription } from 'rxjs';
 import { Neo4jService } from '../core/services/neo4j.service';
 import { AccessibilityType, SearchData, SearchSubTypes } from '../models';
@@ -9,6 +10,8 @@ import { AccessibilityType, SearchData, SearchSubTypes } from '../models';
   styleUrls: ['./accessibility-panel.component.scss'],
 })
 export class AccessibilityPanelComponent implements OnInit, OnDestroy {
+  @ViewChild('Selector') ngselect: NgSelectComponent;
+
   searchData: Observable<SearchData>;
 
   searchTerm = '';
