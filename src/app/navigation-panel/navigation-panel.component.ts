@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Neo4jService } from '../core/services/neo4j.service';
 
 @Component({
@@ -18,10 +19,19 @@ export class NavigationPanelComponent implements OnInit {
     { name: 'Cognitive' },
   ];
 
+  selectedSubscription: Subscription;
+
   constructor(private neo4jService: Neo4jService) {}
 
   ngOnInit(): void {
     this.onAccessibilityClick(this.selected);
+    this.neo4jService.getAllNodes();
+
+    this.selectedSubscription = this.neo4jService.currentAccessibility.subscribe(
+      (selected) => {
+        this.selected = selected;
+      }
+    );
   }
 
   loadHome(): void {
@@ -31,7 +41,7 @@ export class NavigationPanelComponent implements OnInit {
   onAccessibilityClick(name: string): void {
     const query = `MATCH (n:Accessibility)-[r]-(m) where n.name='${name}' RETURN n,r,m`;
     this.neo4jService.query(query);
-    this.selected = name;
+    this.neo4jService.currentAccessibility.next(name);
   }
 
   getImageSrc(item: string): string {

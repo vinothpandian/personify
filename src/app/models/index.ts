@@ -41,3 +41,15 @@ export interface Guideline extends DataNode {
   url: string;
   group: string;
 }
+
+export type SearchSubTypes = {
+  label: string;
+  group: string;
+};
+
+type SearchType = {
+  label: string;
+  data: SearchSubTypes[];
+};
+
+export type SearchData = SearchType[];

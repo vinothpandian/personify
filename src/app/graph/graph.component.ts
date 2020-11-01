@@ -277,6 +277,7 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.neo4jService.query(
       'Match (n)-[r]-(m) where ID(n)=$id return n,r,m',
+      false,
       ['name', 'section'],
       { id: clickedNodeId }
     );

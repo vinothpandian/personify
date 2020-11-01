@@ -48,7 +48,6 @@ export class PersonaPanelComponent implements OnInit, OnDestroy {
     this.selectedPersonaSubscription = this.neo4jService.selectedPersona$.subscribe(
       (persona) => {
         this.currentPersona = persona.name;
-        console.log(this.currentPersona);
       }
     );
   }

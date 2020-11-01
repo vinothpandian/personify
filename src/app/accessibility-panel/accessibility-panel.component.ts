@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Neo4jService } from '../core/services/neo4j.service';
-import { AccessibilityType } from '../models';
+import { AccessibilityType, SearchData, SearchSubTypes } from '../models';
 
 @Component({
   selector: 'app-accessibility-panel',
@@ -10,37 +9,7 @@ import { AccessibilityType } from '../models';
   styleUrls: ['./accessibility-panel.component.scss'],
 })
 export class AccessibilityPanelComponent implements OnInit, OnDestroy {
-  searchField = new FormControl('');
-
-  searchData = [
-    {
-      title: 'Persona',
-      data: [{ title: 'Vinoth' }, { title: 'Sarah' }],
-    },
-    {
-      title: 'Accessibility',
-      data: [{ title: 'Blindness' }, { title: 'Mutism' }],
-    },
-  ];
-
-  projects = [
-    {
-      id: 'p1',
-      title: 'Project A',
-      subprojects: [
-        { title: 'Subproject 1 of A', id: 's1p1' },
-        { title: 'Subproject 2 of A', id: 's2p1' },
-      ],
-    },
-    {
-      id: 'p2',
-      title: 'Project B',
-      subprojects: [
-        { title: 'Subproject 1 of B', id: 's1p2' },
-        { title: 'Subproject 2 of B', id: 's2p2' },
-      ],
-    },
-  ];
+  searchData: Observable<SearchData>;
 
   activeCard = '';
 
@@ -49,6 +18,8 @@ export class AccessibilityPanelComponent implements OnInit, OnDestroy {
   accessibilityTypesSubscription: Subscription;
 
   constructor(private neo4jService: Neo4jService) {
+    this.searchData = this.neo4jService.allNodes$;
+
     this.accessibilityTypesSubscription = this.neo4jService.accessibilityTypes$.subscribe(
       (accessibilityTypes) => {
         this.accessibilities = accessibilityTypes;
@@ -63,5 +34,26 @@ export class AccessibilityPanelComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.accessibilityTypesSubscription.unsubscribe();
+  }
+
+  nodeSelected(model: SearchSubTypes): void {
+    const { label, group } = model;
+
+    if (!label) {
+      return;
+    }
+
+    const updateAll = group === 'Accessibility' ? true : false;
+
+    if (updateAll) {
+      this.neo4jService.currentAccessibility.next(label);
+    }
+
+    if (label) {
+      this.neo4jService.query(
+        `MATCH (n)-[r]-(m) WHERE n.name='${label}' RETURN n,r,m`,
+        updateAll
+      );
+    }
   }
 }

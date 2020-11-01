@@ -5,9 +5,37 @@ import { Graph, GraphEdge, GraphEdges, GraphNode, GraphNodes } from './typings';
 
 class Parser {
   labels: string[];
+  groups: Set<string>;
 
   constructor() {
     this.labels = ['name'];
+
+    this.groups = new Set([
+      'perceivable',
+      'operable',
+      'understandable',
+      'robust',
+      'distinguishable',
+      'adaptable',
+      'timeBasedMedia',
+      'textAlternatives',
+      'guideline',
+      'principlesWCAG',
+      'principlesUAAG',
+      'inputModalities',
+      'navigable',
+      'enoughTime',
+      'keyboardAccessible',
+      'seizuresPhysicalReactions',
+      'predictable',
+      'readable',
+      'inputAssistance',
+      'compatible',
+      'assistiveTechnology',
+      'programmaticAccess',
+      'specificationsConventions',
+      'followSpecifications',
+    ]);
   }
 
   parseNode(id: number, node: neo4j.Node): GraphNode {
@@ -18,27 +46,21 @@ class Parser {
 
     Object.entries(node.properties).forEach(([key, value]) => {
       graphNode[key] = value.toString();
-      graphNode.image = 'assets/images/placeholder.jpg';
-      graphNode.brokenImage = 'assets/images/placeholder.jpg';
 
-      if (this.labels.includes(key)) {
+      if (key === 'name' || key === 'section') {
         graphNode.label = value.toString();
-        graphNode.image = encodeURI(
-          `https://designwithpersonify.com/f/nodes/${value}.png`
-        );
+
+        // tslint:disable-next-line
+        const group = node.properties?.['group'] ?? 'persona';
+
+        if (!this.groups.has(group)) {
+          graphNode.image = encodeURI(
+            `https://designwithpersonify.com/f/nodes/${value.toString()}.png`
+          );
+          graphNode.brokenImage = 'assets/images/placeholder.jpg';
+        }
       }
     });
-
-    if ('name' in node.properties) {
-      // tslint:disable-next-line
-      const name = node.properties['name'].toString();
-
-      const url = encodeURI(
-        `https://designwithpersonify.com/f/nodes/${name}.png`
-      );
-
-      graphNode.image = url;
-    }
 
     return graphNode;
   }

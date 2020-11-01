@@ -1,8 +1,13 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import * as neo4j from 'neo4j-driver';
 import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { AccessibilityType, Guideline, Persona } from 'src/app/models';
+import { filter, map } from 'rxjs/operators';
+import {
+  AccessibilityType,
+  Guideline,
+  Persona,
+  SearchData,
+} from 'src/app/models';
 import { environment } from '../../../environments/environment';
 import Parser from '../parser';
 import {
@@ -37,6 +42,13 @@ export class Neo4jService implements OnDestroy {
 
   selectedPersona$ = new BehaviorSubject<Persona>({} as Persona);
 
+  searchData: {
+    [label: string]: string[];
+  } = {};
+  allNodes$ = new BehaviorSubject<SearchData>([]);
+
+  currentAccessibility = new BehaviorSubject<string>('Speech');
+
   constructor() {
     this.config = environment.neo4jConfig;
 
@@ -59,8 +71,100 @@ export class Neo4jService implements OnDestroy {
     this.edges = {};
   }
 
+  getAllNodes(): void {
+    const rxSession = this.driver.rxSession({
+      defaultAccessMode: neo4j.session.READ,
+    });
+
+    this.searchData = {};
+
+    rxSession
+      .run('MATCH (n) return n')
+      .records()
+      .pipe(
+        map((record: neo4j.Record) => {
+          const node: neo4j.Node = record.get('n');
+
+          // tslint:disable-next-line
+          const name = node.properties?.['name'];
+
+          if (name) {
+            return [node.labels[0], name];
+          }
+
+          return [];
+        }),
+        filter((data) => data.length === 2)
+      )
+      .subscribe({
+        next: ([label, subtype]) => {
+          if (label in this.searchData) {
+            this.searchData[label].push(subtype);
+          } else {
+            this.searchData[label] = [subtype];
+          }
+        },
+        complete: () => {
+          const allNodes = Object.entries(this.searchData).map(
+            ([label, data]) => ({
+              label,
+              data: data.map((item) => ({
+                label: item,
+                group: label,
+              })),
+            })
+          );
+
+          this.allNodes$.next(allNodes);
+        },
+      });
+
+    rxSession.close();
+  }
+
+  updateData(record: neo4j.Record): void {
+    // m in different and must be sorted by different node types
+    //  m can be sorted by label
+    //  Relationship with FOLLOW_THIS_GUIDELINE --> Guideline
+    //  Relationship with HAS_DISABILITY_RELATED_TO --> Persona
+    //  Relationship with TYPE --> SubTypes
+
+    const relationship = record.get('r') as neo4j.Relationship;
+    const node = record.get('m') as neo4j.Node;
+
+    switch (relationship.type) {
+      case 'TYPE':
+        const [
+          accessibilityNode,
+          accessibilityNodeError,
+        ] = this.parser.parseAccessibilityType(node);
+        if (accessibilityNodeError) {
+          break;
+        }
+        this.accessibilityTypes.push(accessibilityNode);
+        break;
+      case 'FOLLOW_THIS_GUIDELINE':
+        const [guidelineNode, guidelineNodeError] = this.parser.parseGuideline(
+          node
+        );
+        if (guidelineNodeError) {
+          break;
+        }
+        this.guidelines.push(guidelineNode);
+        break;
+      case 'HAS_DISABILITY_RELATED_TO':
+        const [personaNode, personaNodeError] = this.parser.parsePersona(node);
+        if (personaNodeError) {
+          break;
+        }
+        this.personas.push(personaNode);
+        break;
+    }
+  }
+
   query(
     query: string,
+    updateAll: boolean = true,
     labels: string[] = ['name', 'section'],
     parameters?: any
   ): void {
@@ -70,54 +174,20 @@ export class Neo4jService implements OnDestroy {
 
     this.nodes = {};
     this.edges = {};
-    this.personas = [];
-    this.accessibilityTypes = [];
-    this.guidelines = [];
+
+    if (updateAll) {
+      this.personas = [];
+      this.accessibilityTypes = [];
+      this.guidelines = [];
+    }
 
     rxSession
       .run(query, parameters)
       .records()
       .pipe(
         map((record: neo4j.Record) => {
-          // m in different and must be sorted by different node types
-          //  m can be sorted by label
-          //  Relationship with FOLLOW_THIS_GUIDELINE --> Guideline
-          //  Relationship with HAS_DISABILITY_RELATED_TO --> Persona
-          //  Relationship with TYPE --> SubTypes
-
-          const relationship = record.get('r') as neo4j.Relationship;
-          const node = record.get('m') as neo4j.Node;
-
-          switch (relationship.type) {
-            case 'TYPE':
-              const [
-                accessibilityNode,
-                accessibilityNodeError,
-              ] = this.parser.parseAccessibilityType(node);
-              if (accessibilityNodeError) {
-                break;
-              }
-              this.accessibilityTypes.push(accessibilityNode);
-              break;
-            case 'FOLLOW_THIS_GUIDELINE':
-              const [
-                guidelineNode,
-                guidelineNodeError,
-              ] = this.parser.parseGuideline(node);
-              if (guidelineNodeError) {
-                break;
-              }
-              this.guidelines.push(guidelineNode);
-              break;
-            case 'HAS_DISABILITY_RELATED_TO':
-              const [personaNode, personaNodeError] = this.parser.parsePersona(
-                node
-              );
-              if (personaNodeError) {
-                break;
-              }
-              this.personas.push(personaNode);
-              break;
+          if (updateAll) {
+            this.updateData(record);
           }
 
           return this.parser.parse(record, labels);

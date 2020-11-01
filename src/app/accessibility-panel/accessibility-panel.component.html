@@ -6,21 +6,21 @@
       </div>
       <ng-select
         class="select"
-        [items]="searchData"
-        bindLabel="title"
-        bindValue="title"
+        [items]="searchData | async"
+        bindLabel="label"
+        bindValue="label"
         groupBy="data"
-        [formControl]="searchField"
         appearance="outline"
+        (change)="nodeSelected($event)"
       >
         <ng-template ng-optgroup-tmp let-item="item">
           <span class="group">
-            {{ item.title }}
+            {{ item.label }}
           </span>
         </ng-template>
         <ng-template ng-option-tmp let-item="item">
           <div class="item">
-            {{ item.title }}
+            {{ item.label }}
           </div>
         </ng-template>
       </ng-select>
