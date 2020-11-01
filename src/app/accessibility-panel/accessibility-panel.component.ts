@@ -37,6 +37,10 @@ export class AccessibilityPanelComponent implements OnInit, OnDestroy {
   }
 
   nodeSelected(model: SearchSubTypes): void {
+    if (!model) {
+      return;
+    }
+
     const { label, group } = model;
 
     if (!label) {
