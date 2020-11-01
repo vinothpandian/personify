@@ -11,6 +11,7 @@ import { AccessibilityType, SearchData, SearchSubTypes } from '../models';
 export class AccessibilityPanelComponent implements OnInit, OnDestroy {
   searchData: Observable<SearchData>;
 
+  searchTerm = '';
   activeCard = '';
 
   accessibilities: AccessibilityType[] = [];
@@ -34,6 +35,15 @@ export class AccessibilityPanelComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.accessibilityTypesSubscription.unsubscribe();
+  }
+
+  cardSelected(name: string): void {
+    this.activeCard = name;
+
+    this.neo4jService.query(
+      `MATCH (n)-[r]-(m) WHERE n.name='${name}' RETURN n,r,m`,
+      false
+    );
   }
 
   nodeSelected(model: SearchSubTypes): void {

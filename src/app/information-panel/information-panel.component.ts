@@ -31,6 +31,11 @@ export class InformationPanelComponent implements OnInit, OnDestroy {
         this.scrollableElementRef?.nativeElement?.scrollTo(0, 0);
 
         this.persona = persona;
+
+        const quote = persona?.quote ?? null;
+        if (!quote) {
+          persona.quote = undefined;
+        }
       }
     );
 
@@ -47,6 +52,7 @@ export class InformationPanelComponent implements OnInit, OnDestroy {
   }
 
   downloadURI(uri: string): void {
+    console.log(uri);
     const link = document.createElement('a');
     link.download = name;
     link.href = uri;

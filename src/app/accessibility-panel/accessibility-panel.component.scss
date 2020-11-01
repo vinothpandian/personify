@@ -13,12 +13,9 @@
 
 .search-and-filter {
   padding: 0 1rem 1rem 0;
-  display: grid;
-  grid-template-columns: 80% 20%;
 
   .search {
-    display: grid;
-    grid-template-columns: 20% 80%;
+    display: flex;
     padding: 0.75rem;
     background-color: $gray-6;
     margin-right: 0.25rem;
@@ -33,7 +30,10 @@
       margin-right: 0.75rem;
     }
 
-
+    .ng-select {
+      border-bottom: 1px solid $gray-5;
+      width: 100%;
+    }
   }
 
   button {

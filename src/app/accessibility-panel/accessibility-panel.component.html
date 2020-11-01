@@ -25,10 +25,6 @@
         </ng-template>
       </ng-select>
     </div>
-
-    <button type="button">
-      <img src="assets/icons/filter.png" alt="filter" />
-    </button>
   </div>
   <div class="cards">
     <app-accessibility-card
@@ -37,7 +33,7 @@
       [description]="card.description"
       [active]="activeCard"
       [image]="'https://designwithpersonify.com/f/nodes/' + card.name + '.png'"
-      (click)="this.activeCard = card.name"
+      (click)="cardSelected(card.name)"
     ></app-accessibility-card>
   </div>
 </div>

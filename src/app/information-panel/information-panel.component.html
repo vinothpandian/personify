@@ -13,7 +13,10 @@
   </div>
 </div>
 <div class="scrollable" #scrollable>
-  <q class="quote">
+  <q
+    [style.display]="persona.quote !== undefined ? 'block' : 'none'"
+    class="quote"
+  >
     {{ persona.quote }}
   </q>
   <div class="description">

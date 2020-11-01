@@ -35,6 +35,7 @@ export class NavigationPanelComponent implements OnInit {
   }
 
   loadHome(): void {
+    this.neo4jService.currentAccessibility.next('');
     this.neo4jService.query('MATCH (n:Main)-[r]-(m) RETURN n,r,m', false);
   }
 
