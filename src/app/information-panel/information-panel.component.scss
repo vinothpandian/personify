@@ -1,4 +1,5 @@
 @import "../../assets/partials/variables";
+@import "../../assets/partials/mixins";
 @import url("https://fonts.googleapis.com/css2?family=Homemade+Apple&display=swap");
 
 .wrapper {
@@ -62,6 +63,12 @@
   background-color: $white;
   height: 65vh;
   overflow-y: scroll;
+
+  @include scrollbars(
+    0.5rem,
+    $primary-scroll-foreground,
+    $primary-scroll-background
+  );
 
   .quote {
     text-align: center;

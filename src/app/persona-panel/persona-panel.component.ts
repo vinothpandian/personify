@@ -34,7 +34,7 @@ export class PersonaPanelComponent implements OnInit, OnDestroy {
 
         this.personas = personas.map((persona) => {
           const imageURL = encodeURI(
-            `https://designwithpersonify.com/f/nodes/${persona.name}.png`
+            `https://designwithpersonify.com/f/avatars/${persona.name}.png`
           );
 
           return {

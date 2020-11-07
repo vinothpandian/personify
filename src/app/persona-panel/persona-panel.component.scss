@@ -1,3 +1,6 @@
+@import "../../assets/partials/mixins";
+@import "../../assets/partials/variables";
+
 .wrapper {
   height: calc(100vh - 2rem);
   overflow-x: hidden;
@@ -6,14 +9,11 @@
   flex-direction: column;
   align-items: center;
 
-  /* Hide scrollbar for Chrome, Safari and Opera */
-  &::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Hide scrollbar for IE, Edge and Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  @include scrollbars(
+    0.5rem,
+    $primary-scroll-foreground,
+    $primary-scroll-background
+  );
 
   img {
     cursor: pointer;
