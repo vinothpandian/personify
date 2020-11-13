@@ -38,6 +38,8 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
     this.searchData = this.neo4jService.allNodes$;
   }
 
+
+
   nodeSelected(model: SearchSubTypes): void {
     if (!model) {
       return;

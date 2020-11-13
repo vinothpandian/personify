@@ -1,29 +1,29 @@
-<div class="search" (click)="ngselect.open()">
-    <div class="search-icon">
-      <img src="assets/icons/search.png" alt="search" />
-    </div>
-    <ng-select
-      #Selector
-      class="select"
-      [items]="searchData | async"
-      bindLabel="label"
-      bindValue="label"
-      groupBy="data"
-      appearance="outline"
-      (change)="nodeSelected($event)"
-    >
-      <ng-template ng-optgroup-tmp let-item="item">
-        <span class="group">
-          {{ item.label }}
-        </span>
-      </ng-template>
-      <ng-template ng-option-tmp let-item="item">
-        <div class="item">
-          {{ item.label }}
-        </div>
-      </ng-template>
-    </ng-select>
+<div class="search">
+  <div class="search-icon">
+    <img src="assets/icons/search.png" alt="search" />
   </div>
+  <ng-select
+    #Selector
+    class="select"
+    [items]="searchData | async"
+    bindLabel="label"
+    bindValue="label"
+    groupBy="data"
+    appearance="outline"
+    [(ngModel)]="searchTerm"
+    (change)="nodeSelected($event)"
+  >
+    <ng-template ng-optgroup-tmp let-item="item">
+      <span class="group">
+        {{ item.label }}
+      </span>
+    </ng-template>
+    <ng-template ng-option-tmp let-item="item">
+      <div class="item">
+        {{ item.label }}
+      </div>
+    </ng-template>
+  </ng-select>
+</div>
 
-  
 <div #visNetwork id="vis-network"></div>
