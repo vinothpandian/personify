@@ -6,11 +6,13 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { Observable, Subscription } from 'rxjs';
 import { Network, Options } from 'vis-network/standalone';
 import { InformationService } from '../core/services/information.service';
 import { Neo4jService } from '../core/services/neo4j.service';
 import { GraphClickEvent, GraphData, GraphNode } from '../core/typings';
+import { SearchData, SearchSubTypes } from '../models';
 
 @Component({
   selector: 'app-graph',
@@ -19,13 +21,47 @@ import { GraphClickEvent, GraphData, GraphNode } from '../core/typings';
 })
 export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('visNetwork', { static: false }) visNetwork!: ElementRef;
+  @ViewChild('Selector') ngselect: NgSelectComponent;
+
+  searchData: Observable<SearchData>;
+
+  searchTerm = '';
+  activeCard = '';
+
   private network: Network;
   private neo4jSubscription: Subscription;
 
   constructor(
     private neo4jService: Neo4jService,
     private informationService: InformationService
-  ) {}
+  ) {
+    this.searchData = this.neo4jService.allNodes$;
+  }
+
+  nodeSelected(model: SearchSubTypes): void {
+    if (!model) {
+      return;
+    }
+
+    const { label, group } = model;
+
+    if (!label) {
+      return;
+    }
+
+    const updateAll = group === 'Accessibility' ? true : false;
+
+    if (updateAll) {
+      this.neo4jService.currentAccessibility.next(label);
+    }
+
+    if (label) {
+      this.neo4jService.query(
+        `MATCH (n)-[r]-(m) WHERE n.name='${label}' RETURN n,r,m`,
+        updateAll
+      );
+    }
+  }
 
   ngOnInit(): void {}
 

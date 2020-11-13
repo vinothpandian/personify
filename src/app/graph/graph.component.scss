@@ -1,3 +1,41 @@
+@import "../../assets/partials/variables";
+
+.two-rem-size {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.search {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 99999;
+  border: 1px solid $gray-5;
+  width: 20rem;
+
+  cursor: text;
+  display: flex;
+  padding: 0.75rem;
+  background-color: $gray-6;
+  margin-right: 0.25rem;
+  border-radius: 0.75rem;
+  margin-right: 0.25rem;
+  align-items: center;
+
+  .search-icon {
+    cursor: pointer;
+    img {
+      @extend .two-rem-size;
+    }
+    margin-right: 0.75rem;
+  }
+
+  .ng-select {
+    cursor: text;
+    width: 100%;
+  }
+}
+
 #vis-network {
   height: calc(100vh - 2rem);
 }
