@@ -8,7 +8,7 @@ import { Neo4jService } from '../core/services/neo4j.service';
   styleUrls: ['./navigation-panel.component.scss'],
 })
 export class NavigationPanelComponent implements OnInit {
-  selected = 'Speech';
+  selected = 'Visual';
 
   title = 'Personify';
   links = [
